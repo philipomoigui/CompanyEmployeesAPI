@@ -2,3 +2,10 @@
 2020-10-17 02:12:24.3715 DEBUG Here is debug message from our values controller.
 2020-10-17 02:12:24.4024 WARN Here is warn message from our values controller.
 2020-10-17 02:12:24.4300 ERROR Here is an error message from our values controller.
+2020-10-17 11:52:10.5960 ERROR Something went wrong in GetCompanies action AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+Object -> CompanyDto
+System.Object -> Entities.DTOs.CompanyDto
+   at lambda_method(Closure , Object , CompanyDto , ResolutionContext )
+   at CompanyEmployees.Controllers.CompaniesController.GetCompanies() in C:\Users\apple\source\repos\CompanyEmployees\Controllers\CompaniesController.cs:line 37
