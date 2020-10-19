@@ -9,6 +9,7 @@ using Entities.DTOs;
 using Entities.Models;
 using LoggerService;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Repository;
 
@@ -66,6 +67,12 @@ namespace CompanyEmployees.Controllers
                 return BadRequest("CreateCompanyDto is null");
             }
 
+            if (!ModelState.IsValid)
+            {
+                _loggerManager.LogError("Invalid Model State for CreateCompanyDto Object");
+                return UnprocessableEntity(ModelState);
+            }
+
             var companyEntity = _mapper.Map<Company>(company);
             _repositoryManager.Company.CreateCompany(companyEntity);
             _repositoryManager.Save();
@@ -105,6 +112,12 @@ namespace CompanyEmployees.Controllers
                 return BadRequest("Company Collection is null");
             }
 
+            if (!ModelState.IsValid)
+            {
+                _loggerManager.LogError("Invalid Model State for CreateCompanyDto Object");
+                return UnprocessableEntity(ModelState);
+            }
+
             var companyEntities = _mapper.Map<IEnumerable<Company>>(companyCollection);
 
             foreach(Company company in companyEntities)
@@ -131,6 +144,34 @@ namespace CompanyEmployees.Controllers
             }
 
             _repositoryManager.Company.DeleteCompany(company);
+            _repositoryManager.Save();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateCompany(Guid id, [FromBody] UpdateCompanyDto company) 
+        {
+            if(company == null)
+            {
+                _loggerManager.LogError("The UpdateCompanyDto object received from client is null");
+                return BadRequest("UpdateCompanyDto object is null");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _loggerManager.LogError("Invalid Model State for UpdateCompanyDto Object");
+                return UnprocessableEntity(ModelState);
+            }
+
+            var companyEntity = _repositoryManager.Company.GetCompany(id, trackChanges: true);
+            if(companyEntity == null)
+            {
+                _loggerManager.LogInfo($"Company with id: {id} does not exist in our database");
+                return NotFound();
+            }
+
+            _mapper.Map(company, companyEntity);
             _repositoryManager.Save();
 
             return NoContent();

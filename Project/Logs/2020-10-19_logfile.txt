@@ -4,3 +4,90 @@
 2020-10-19 17:38:11.0200 INFO Company with the id: 0ad5b971-ff51-414d-af01-34187e407557 sent from client does not exist in our database
 2020-10-19 17:40:06.4663 ERROR Company with id: fd670b6a-e4a4-45b9-fc33-08d8737b9aad does not exist in the database
 2020-10-19 17:41:03.5170 ERROR Company with id: 18c380dd-3ca4-40f0-f718-08d8737b24a5 does not exist in the database
+2020-10-19 21:24:20.2573 INFO Employee with id: 80abbca8-664d-4b20-b5de-024705497d4a does not exist in our database
+2020-10-19 22:36:05.8728 INFO Employee with the id: 80abbca8-664d-4b20-b5de-024705497d4a does not exist in the database
+2020-10-19 22:56:15.3511 ERROR Invalid Model State for the CreateEmployeeDto Object
+2020-10-19 23:05:55.0505 ERROR Invalid Model State for the CreateEmployeeDto Object
+2020-10-19 23:06:56.2120 ERROR Invalid Model State for the CreateEmployeeDto Object
+2020-10-19 23:07:23.6433 ERROR Invalid Model State for the CreateEmployeeDto Object
+2020-10-19 23:22:14.6523 ERROR Invalid Model State for UpdateEmployeeDto Object
+2020-10-19 23:22:21.6125 ERROR Invalid Model State for UpdateEmployeeDto Object
+2020-10-19 23:23:29.5821 ERROR The PatchDoc Object received from client is null
+2020-10-19 23:24:15.7875 ERROR The PatchDoc Object received from client is null
+2020-10-19 23:25:21.7456 INFO Employee with the id: 80abbca8-664d-4b20-b5de-024705497d4a does not exist in the database
+2020-10-19 23:25:41.7897 ERROR The PatchDoc Object received from client is null
+2020-10-19 23:26:17.1954 ERROR The PatchDoc Object received from client is null
+2020-10-19 23:28:12.5002 ERROR Something went wrong: Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details.
+ ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert the value NULL into column 'Name', table 'CompanyEmployeeDB.dbo.Employees'; column does not allow nulls. UPDATE fails.
+The statement has been terminated.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.ExecuteReader()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReader(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+ClientConnectionId:59f36d6f-ec40-4984-8d2d-0e0a7f405aad
+Error Number:515,State:2,Class:16
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.Execute(IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(DbContext _, Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges()
+   at Repository.RepositoryManager.Save() in C:\Users\apple\source\repos\Repository\RepositoryManager.cs:line 41
+   at CompanyEmployees.Controllers.EmployeesController.PartialEmployeeforCompanyUpdate(Guid companyId, Guid id, JsonPatchDocument`1 patchDoc) in C:\Users\apple\source\repos\CompanyEmployees\Controllers\EmployeesController.cs:line 194
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2020-10-19 23:28:53.5680 ERROR Something went wrong: Microsoft.AspNetCore.JsonPatch.Exceptions.JsonPatchException: The target location specified by path segment 'nameee' was not found.
+   at Microsoft.AspNetCore.JsonPatch.Internal.ErrorReporter.<>c.<.cctor>b__1_0(JsonPatchError error)
+   at Microsoft.AspNetCore.JsonPatch.Adapters.ObjectAdapter.Remove(String path, Object objectToApplyTo, Operation operationToReport)
+   at Microsoft.AspNetCore.JsonPatch.Adapters.ObjectAdapter.Remove(Operation operation, Object objectToApplyTo)
+   at Microsoft.AspNetCore.JsonPatch.Operations.Operation`1.Apply(TModel objectToApplyTo, IObjectAdapter adapter)
+   at Microsoft.AspNetCore.JsonPatch.JsonPatchDocument`1.ApplyTo(TModel objectToApplyTo, IObjectAdapter adapter)
+   at Microsoft.AspNetCore.JsonPatch.JsonPatchDocument`1.ApplyTo(TModel objectToApplyTo)
+   at CompanyEmployees.Controllers.EmployeesController.PartialEmployeeforCompanyUpdate(Guid companyId, Guid id, JsonPatchDocument`1 patchDoc) in C:\Users\apple\source\repos\CompanyEmployees\Controllers\EmployeesController.cs:line 185
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware.<Invoke>g__Awaited|6_0(ExceptionHandlerMiddleware middleware, HttpContext context, Task task)
+2020-10-19 23:33:41.5966 ERROR Invalid Model State for UpdateEmployeeDto Object
+2020-10-19 23:33:58.9253 ERROR Invalid Model State for UpdateEmployeeDto Object
