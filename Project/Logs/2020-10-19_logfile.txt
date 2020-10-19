@@ -1,0 +1,6 @@
+2020-10-19 17:17:22.9701 INFO Company with id: 0ad5b971-ff51-414d-af01-34187e407557 does not exist in our database
+2020-10-19 17:18:35.6193 INFO Company with id: 0ad5b971-ff51-414d-af01-34187e407557 does not exist in our database
+2020-10-19 17:21:46.8188 INFO Employee with id: 80abbca8-664d-4b20-b5de-024705497d4a does not exist in our database
+2020-10-19 17:38:11.0200 INFO Company with the id: 0ad5b971-ff51-414d-af01-34187e407557 sent from client does not exist in our database
+2020-10-19 17:40:06.4663 ERROR Company with id: fd670b6a-e4a4-45b9-fc33-08d8737b9aad does not exist in the database
+2020-10-19 17:41:03.5170 ERROR Company with id: 18c380dd-3ca4-40f0-f718-08d8737b24a5 does not exist in the database
