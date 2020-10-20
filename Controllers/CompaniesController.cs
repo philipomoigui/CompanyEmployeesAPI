@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using CompanyEmployees.ActionFilters;
 using CompanyEmployees.ModelBinders;
 using Contracts;
 using Entities.DTOs;
@@ -31,9 +32,9 @@ namespace CompanyEmployees.Controllers
         }
 
        [HttpGet]
-       public IActionResult GetCompanies()
+       public async Task<IActionResult> GetCompanies()
         {
-            var companies =  _repositoryManager.Company.GetAllCompanies(trackChanges: false);
+            var companies =  await _repositoryManager.Company.GetAllCompaniesAsync(trackChanges: false);
 
             var companyDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
 
@@ -41,9 +42,9 @@ namespace CompanyEmployees.Controllers
         }
 
         [HttpGet("{id}", Name ="CompanyById")]
-        public IActionResult GetCompany(Guid id)
+        public async Task<IActionResult> GetCompany(Guid id)
         {
-            var company = _repositoryManager.Company.GetCompany(id, trackChanges: false);
+            var company = await _repositoryManager.Company.GetCompanyAsync(id, trackChanges: false);
 
             if(company == null)
             {
@@ -59,23 +60,12 @@ namespace CompanyEmployees.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateCompany([FromBody] CreateCompanyDto company)
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyDto company)
         {
-            if(company == null)
-            {
-                _loggerManager.LogError("CreateCompanyDto object sent from client is null");
-                return BadRequest("CreateCompanyDto is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _loggerManager.LogError("Invalid Model State for CreateCompanyDto Object");
-                return UnprocessableEntity(ModelState);
-            }
-
             var companyEntity = _mapper.Map<Company>(company);
             _repositoryManager.Company.CreateCompany(companyEntity);
-            _repositoryManager.Save();
+            await _repositoryManager.SaveAsync();
 
             var companyToReturn = _mapper.Map<CompanyDto>(companyEntity);
 
@@ -83,7 +73,7 @@ namespace CompanyEmployees.Controllers
         }
 
         [HttpGet("collection/{ids}", Name = "GetCompanyCollection")]
-        public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
+        public async Task<IActionResult> GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
             if (ids == null)
             {
@@ -91,7 +81,7 @@ namespace CompanyEmployees.Controllers
                 return BadRequest("Parameter ids are null");
             }
 
-            var companyEntities = _repositoryManager.Company.GetCompaniesByIds(ids, trackChanges: false);
+            var companyEntities = await _repositoryManager.Company.GetCompaniesByIdsAsync(ids, trackChanges: false);
 
             if (ids.Count() != companyEntities.Count())
             {
@@ -104,7 +94,7 @@ namespace CompanyEmployees.Controllers
         }
 
         [HttpPost("collection")]
-        public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CreateCompanyDto> companyCollection)
+        public async Task<IActionResult> CreateCompanyCollection([FromBody] IEnumerable<CreateCompanyDto> companyCollection)
         {
             if(companyCollection == null)
             {
@@ -124,7 +114,7 @@ namespace CompanyEmployees.Controllers
             {
                 _repositoryManager.Company.CreateCompany(company);
             }
-            _repositoryManager.Save();
+            await _repositoryManager.SaveAsync();
 
             var companyCollectionToReturn = _mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
 
@@ -134,45 +124,24 @@ namespace CompanyEmployees.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteCompany(Guid id)
+        [ServiceFilter(typeof(ValidateCompanyExistAttribute))]
+        public async Task<IActionResult> DeleteCompany(Guid id)
         {
-            var company = _repositoryManager.Company.GetCompany(id, trackChanges: false);
-            if(company == null)
-            {
-                _loggerManager.LogInfo($"Company with the id: {id} sent from client does not exist in our database");
-                return NotFound();
-            }
-
+            var company = HttpContext.Items["company"] as Company;
             _repositoryManager.Company.DeleteCompany(company);
-            _repositoryManager.Save();
+            await _repositoryManager.SaveAsync();
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateCompany(Guid id, [FromBody] UpdateCompanyDto company) 
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidateCompanyExistAttribute))]
+        public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] UpdateCompanyDto company) 
         {
-            if(company == null)
-            {
-                _loggerManager.LogError("The UpdateCompanyDto object received from client is null");
-                return BadRequest("UpdateCompanyDto object is null");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                _loggerManager.LogError("Invalid Model State for UpdateCompanyDto Object");
-                return UnprocessableEntity(ModelState);
-            }
-
-            var companyEntity = _repositoryManager.Company.GetCompany(id, trackChanges: true);
-            if(companyEntity == null)
-            {
-                _loggerManager.LogInfo($"Company with id: {id} does not exist in our database");
-                return NotFound();
-            }
-
+            var companyEntity = HttpContext.Items["company"] as Company;
             _mapper.Map(company, companyEntity);
-            _repositoryManager.Save();
+            await _repositoryManager.SaveAsync();
 
             return NoContent();
         }
