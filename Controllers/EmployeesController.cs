@@ -7,9 +7,11 @@ using CompanyEmployees.ActionFilters;
 using Contracts;
 using Entities.DTOs;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Repository;
 
 namespace CompanyEmployees.Controllers
@@ -29,8 +31,13 @@ namespace CompanyEmployees.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> GetEmployeesForCompany(Guid companyId)
+        public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
         {
+            if (!employeeParameters.IsValidAge)
+            {
+                return BadRequest("Max Age can't be less than minimum Age");
+            }
+
             var company = await _repositoryManager.Company.GetCompanyAsync(companyId, trackChanges: false);
 
             if(company == null)
@@ -39,7 +46,9 @@ namespace CompanyEmployees.Controllers
                 return NotFound();
             }
 
-            var employeesFromDb = await _repositoryManager.Employee.GetEmployeesAsync(companyId, trackChanges: false);
+            var employeesFromDb = await _repositoryManager.Employee.GetEmployeesAsync(companyId,employeeParameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employeesFromDb.MetaData));
 
             var employeeDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
             return Ok(employeeDto);
